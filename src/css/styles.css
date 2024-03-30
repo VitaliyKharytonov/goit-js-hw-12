@@ -1,4 +1,5 @@
 @import url('./reset.css');
+
 @import 'node_modules/modern-normalize/modern-normalize.css';
 
 body {
@@ -10,6 +11,12 @@ body {
 
   color: #2e2f42;
   background-color: #ffffff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .form {
@@ -98,15 +105,10 @@ body {
   border: 5px solid #fff;
   border-bottom-color: #ff3d00;
   border-radius: 50%;
-  display: inline-block;
+  display: block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
 }
 
 @keyframes rotation {
@@ -120,4 +122,26 @@ body {
 .is-hidden {
   opacity: 0;
   visibility: hidden;
+}
+
+button {
+  width: 125px;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 32px;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+
+  color: #ffffff;
+  background-color: #4e75ff;
+
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+.button:hover {
+  background-color: #6c8cff;
 }
