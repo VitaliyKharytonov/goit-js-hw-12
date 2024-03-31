@@ -46,29 +46,35 @@ async function onFormSubmit(event) {
     iziToast.error({
       title: 'Error',
       message: 'The search field is empty. Please try again!',
+      position: 'topRight',
     });
-  }
-
-  try {
-    showLoader();
-    const data = await getImage(value, currentPage);
-    maxPage = Math.ceil(data.totalHits / pageSize);
-    if (!data.hits.length) {
-      iziToast.error({
-        title: 'Error',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-      });
+    hideLoadMoreBtn();
+  } else {
+    try {
+      showLoader();
+      const data = await getImage(value, currentPage);
+      maxPage = Math.ceil(data.totalHits / pageSize);
+      if (!data.hits.length) {
+        iziToast.error({
+          title: 'Error',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
+        hideLoader();
+        hideLoadMoreBtn();
+      } else {
+        const markup = imagesTemplate(data.hits);
+        refs.listEL.insertAdjacentHTML('beforeend', markup);
+        lightbox.refresh();
+        hideLoader();
+        checkBtnStatus();
+      }
+    } catch (error) {
+      console.log(error);
     }
-    const markup = imagesTemplate(data.hits);
-    refs.listEL.insertAdjacentHTML('beforeend', markup);
-    lightbox.refresh();
-  } catch (error) {
-    console.log(error);
+    refs.formEl.reset();
   }
-  hideLoader();
-  checkBtnStatus();
-  refs.formEl.reset();
 }
 
 async function onLoadMoreClick() {
@@ -78,6 +84,7 @@ async function onLoadMoreClick() {
     const data = await getImage(value, currentPage);
     const markup = imagesTemplate(data.hits);
     refs.listEL.insertAdjacentHTML('beforeend', markup);
+    lightbox.refresh();
   } catch (err) {
     console.log(err);
   }
@@ -104,6 +111,7 @@ function checkBtnStatus() {
     hideLoadMoreBtn();
     iziToast.info({
       message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight',
     });
   } else {
     showLoadMoreBtn();
